@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualisation du CV de Walid Charfi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Couleur de fond légère */
+            color: #334155; /* Couleur de texte sombre */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: #ffffff;
+            border-radius: 1rem; /* Bords arrondis */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre douce */
+        }
+        .chart-container {
+            width: 100%;
+            overflow-x: auto; /* Permet le défilement horizontal si le graphique est trop large */
+        }
+        .bar {
+            fill: #3b82f6; /* Couleur de la barre (bleu) */
+            transition: fill 0.3s ease; /* Transition douce au survol */
+        }
+        .bar:hover {
+            fill: #2563eb; /* Couleur de la barre au survol */
+        }
+        .axis text {
+            font-size: 0.875rem; /* Taille de la police pour les axes */
+            fill: #64748b; /* Couleur du texte des axes */
+        }
+        .axis line, .axis path {
+            stroke: #cbd5e1; /* Couleur des lignes des axes */
+            shape-rendering: crispEdges;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            padding: 0.5rem;
+            background: #334155; /* Fond sombre pour l'infobulle */
+            color: #ffffff; /* Texte blanc pour l'infobulle */
+            border-radius: 0.5rem;
+            pointer-events: none; /* Permet aux événements de souris de passer à travers */
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            font-size: 0.875rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="container">
+        <header class="text-center mb-8">
+            <img src="image_a55dc7.png" alt="Photo de Profil de Walid Charfi" class="rounded-full w-32 h-32 object-cover mx-auto mb-4 border-4 border-blue-500 shadow-lg">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">Charfi Walid</h1>
+            <p class="text-xl sm:text-2xl text-blue-600 font-semibold mb-4">Consultant Oracle BI / Applications / BDD</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6 text-lg text-gray-700">
+                <span><i class="fas fa-phone-alt"></i> (+33) 6 62 90 44 38</span>
+                <span><i class="fas fa-envelope"></i> charfi.walid89@gmail.com</span>
+            </div>
+        </header>
+
+        <section class="mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Résumé</h2>
+            <p class="text-gray-700 leading-relaxed">
+                Consultant Oracle BI/Applications/BDD expérimenté, avec 10 ans d'expertise dans la conception, le développement et la mise en œuvre de solutions Oracle. Compétent en animation d'ateliers, rédaction de spécifications techniques, réalisation, tests, recette et suivi des mises à jour. Solides compétences en bases de données, programmation, frameworks et environnements fonctionnels. Maîtrise des méthodologies Agile et des outils de gestion de projet.
+            </p>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Compétences</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-700">
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Bases de Données :</h3>
+                    <p>Postgres, Oracle, MySQL</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Programmation :</h3>
+                    <p>Java, PL/SQL, Shell, CSS3, HTML5, Python</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Frameworks :</h3>
+                    <p>OBIEE, Oracle CC&B, Oracle EBS, Oracle BI Publisher</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Environnements Fonctionnels :</h3>
+                    <p>Financials, Manufacturing, Gestion service titre et service financier, Actionnariat salarié</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Systèmes d'Exploitation :</h3>
+                    <p>Windows (Administration), Unix/Linux (RedHat/Centos 4/5/6) (Administration, Programmation Système)</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Outils de Développement :</h3>
+                    <p>NetBeans, Eclipse, JDeveloper, Oracle Workflow, Talend, Toad, SQL Developer, BI Publisher</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Outils de Versioning :</h3>
+                    <p>GitLab, Bitbucket, SourceTree, Jenkins, SVN, GIT</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Outils d'Ordonnancement :</h3>
+                    <p>ControlM, VTOM</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Outils de Gestion de Projet :</h3>
+                    <p>LOTUS, Synergy 7.1, Jira, Redmine</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Outils de Gestion de VMs :</h3>
+                    <p>Docker, Oracle Virtual BOX</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Méthodologie :</h3>
+                    <p>Lean Management, Scrum Agile, Cycle en V, Agilité à l'échelle</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Génie Logiciel :</h3>
+                    <p>UML</p>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-blue-700">Protocoles :</h3>
+                    <p>IPv4/IPv6, TCP/IP, UDP, Ethernet, SMTP, SFTP</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Visualisation des Durées d'Expérience</h2>
+            <div id="chart-container" class="chart-container">
+                </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Expérience Professionnelle</h2>
+            <div id="experience-list">
+                </div>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Formation</h2>
+            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                <li>**2011-2014 :** École Nationale des Sciences de l’Informatique (ENSI) - Diplôme National d’Ingénieur en Informatique</li>
+                <li>**2009-2011 :** Institut Préparatoire aux Études d'Ingénieurs de Tunis - Rang : 257 sur 1800 admis</li>
+                <li>**2009 :** Baccalauréat en mathématiques : Lycée Khair-Eddine Bacha - Mention Bien</li>
+            </ul>
+        </section>
+
+        <section class="mb-8">
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Langues</h2>
+            <ul class="list-disc list-inside text-gray-700 space-y-2">
+                <li>Français : Très bon niveau (lu, écrit, parlé)</li>
+                <li>Anglais : Bon niveau (lu, écrit, parlé)</li>
+                <li>Arabe : Langue natale</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4 border-b-2 border-blue-500 pb-2">Centres d'intérêt</h2>
+            <div class="text-gray-700">
+                <h3 class="font-semibold text-lg text-blue-700">Formation :</h3>
+                <ul class="list-disc list-inside ml-4">
+                    <li>Fonctionnelle : Supply Chain.</li>
+                    <li>Technique : PL/SQL, Oracle Database, Oracle EBS, OBIEE, Big Data.</li>
+                </ul>
+                <h3 class="font-semibold text-lg text-blue-700 mt-2">Loisirs et sport :</h3>
+                <ul class="list-disc list-inside ml-4">
+                    <li>Jeux d'échecs, Astronomie, Jeux de réflexion, Football, Tennis</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Fonction pour analyser les dates et calculer la durée
+        function parseDate(dateString) {
+            if (dateString.toLowerCase() === 'présent' || dateString.toLowerCase() === 'a ce jour') {
+                return new Date(); // Date actuelle
+            }
+            // Gérer les formats "MM/AAAA" ou "AAAA"
+            const parts = dateString.split('/');
+            if (parts.length === 2) { // MM/AAAA
+                return new Date(parts[1], parseInt(parts[0]) - 1, 1);
+            } else if (parts.length === 1) { // AAAA
+                return new Date(parts[0], 0, 1);
+            }
+            return null; // En cas de format non reconnu
+        }
+
+        // Données des expériences professionnelles extraites du CV
+        const experiencesData = [
+            {
+                company: "UPTEVIA / BPCE",
+                project: "« Éditique »",
+                startDate: "06/2022",
+                endDate: "Présent",
+                post: "Technico-fonctionnel Oracle BI reporting actionnariat salarié",
+                description: "Génération de rapports éditiques pour les services titres, financiers et d'actionnariat salarié.",
+                tasks: [
+                    "Animation des ateliers de cadrage et planification des évolutions.",
+                    "Préparation des modèles de données.",
+                    "Préparation des templates (PDF, Excel, Word).",
+                    "Développement de packages PL/SQL.",
+                    "Paramétrage des lancements automatiques des rapports éditiques depuis BI Publisher.",
+                    "Packaging et livraison en environnements de recette, production et pré-production.",
+                    "Rédaction des spécifications techniques."
+                ],
+                environment: "Oracle BDD, Solaris, BI Publisher, Windows, Octane, Jira.",
+                functional: "Finance de marché.",
+                methodology: "Agile."
+            },
+            {
+                company: "BPCE",
+                project: "« Obsolescence »",
+                startDate: "01/2021",
+                endDate: "06/2022",
+                post: "Architecture et Pilotage de Projet",
+                description: "Gestion de l'obsolescence des BDD Oracle (migration Exadata, upgrade V19c, decommissionnements), des serveurs Datastage (migration vers MyCloud avec DS 11.7), PowerBI et Cognos.",
+                tasks: [
+                    "Animation des réunions de cadrage pour la planification des migrations.",
+                    "Coordination des équipes (Projet, Assemblage, Homologation, DBA, Architectes, Experts Solution).",
+                    "Participation et animation des COPROJ.",
+                    "Préparation de la Démo du PI.",
+                    "Étude technique d'éligibilité des migrations.",
+                    "Préparation des plannings détaillés pour les migrations.",
+                    "Rédaction des feuilles de route.",
+                    "Animation des PI Planning et Sprint Planning.",
+                    "Rédaction des spécifications techniques et des documents d'architecture technique."
+                ],
+                environment: "Oracle BDD, Datastage, Linux, Windows, Cognos, PowerBI, Jira, XLD, XLR, MyCloud.",
+                functional: "Banque.",
+                methodology: "Agile."
+            },
+            {
+                company: "Crédit Agricole",
+                project: "« CAAGIS »",
+                startDate: "04/2018",
+                endDate: "01/2021",
+                post: "Consultant Technique et Fonctionnel Oracle EBS",
+                description: "Maintenance en conditions opérationnelles et évolutions.",
+                tasks: [
+                    "Analyse des besoins du client.",
+                    "Paramétrage des modules financiers.",
+                    "Configuration des comptes.",
+                    "Configuration des segments de comptabilité.",
+                    "Journalisation automatique.",
+                    "Maîtrise des workflows, des processus métiers et des cycles financiers (facturation, comptabilisation, clôtures mensuelles/annuelles).",
+                    "Optimisation des processus comptables.",
+                    "Rédaction des spécifications fonctionnelles et techniques détaillées.",
+                    "Analyse des anomalies.",
+                    "Suivi de production.",
+                    "Développement de traitements Oracle PL/SQL.",
+                    "Évolution des rapports BI avec l'outil OBIEE.",
+                    "Génération des fichiers XML via PL/SQL.",
+                    "Développement des états BI Publisher.",
+                    "Création de scripts Shell de livraison."
+                ],
+                environment: "Centos 7, Oracle 12c.",
+                technical: "Oracle EBS 12.2.4, BI Publisher, Unix/Shell, PL/SQL, Oracle Workflow, OBIEE, Answers, LOTUS, Synergy 7.1, Toad.",
+                functional: "AP, PO, GL, AL, AR, HR, RB."
+            },
+            {
+                company: "Veolia",
+                project: "« VCMS »",
+                startDate: "06/2016",
+                endDate: "04/2018",
+                post: "Consultant Technique Oracle",
+                description: "Mise en place des évolutions pour la facturation des clients de Veolia.",
+                tasks: [
+                    "Analyse des besoins du client.",
+                    "Rédaction des spécifications techniques/fonctionnelles détaillées.",
+                    "Analyse des anomalies.",
+                    "Implémentation des évolutions et corrections des anomalies.",
+                    "Développement de traitements Java avec le framework Ouaf.",
+                    "Développement de traitements PL/SQL.",
+                    "Paramétrage et développement des jobs sur l'outil ControlM.",
+                    "Automatisation des livraisons en utilisant l'outil Jenkins.",
+                    "Installation et configuration de GIT/BITBUCKET et Sourcetree.",
+                    "Utilisation de Jira pour la gestion de projet.",
+                    "Animation et participation aux réunions de planification et rétrospective de Scrum.",
+                    "Estimation des Jiras.",
+                    "Suivi de production."
+                ],
+                methodology: "Agile.",
+                technical: "Oracle CC&B 2.5, ControlM, Linux, PL/SQL, BUSINESS OBJECTS, Hibernate, Jira, Bitbucket, SourceTree, Jenkins, Java 7.",
+                functional: "Facturation, Gestion des clients."
+            },
+            {
+                company: "DCNS",
+                project: "« FIRA »",
+                startDate: "01/2014",
+                endDate: "06/2016",
+                post: "Consultant Technique et Fonctionnel Oracle",
+                description: "Customisation de l'ERP Oracle EBS pour la gestion de la chaîne d'approvisionnement de DCNS.",
+                tasks: [
+                    "Développement des écrans avec APEX (Oracle Application Express).",
+                    "Personnalisation OAF (Oracle Application Framework).",
+                    "Rédaction des scénarios de tests unitaires fonctionnels et intégrés.",
+                    "Développement et déploiement des packages PL/SQL sous forme de web services REST spécifiques.",
+                    "Génération des fichiers XML via PL/SQL.",
+                    "Développement des états BI Publisher.",
+                    "Invocation des web services via business event.",
+                    "Développement des workflows spécifiques.",
+                    "Appel des workflows spécifiques et procédure via business event.",
+                    "Création de scripts Shell de livraison.",
+                    "Implémentation des traitements avec l'ETL Talend.",
+                    "Rédaction de fiches de tests.",
+                    "Paramétrage spécifique des interfaces (Création CUF, JDV, etc.)."
+                ],
+                environment: "Centos 7, Oracle 12c.",
+                technical: "Oracle EBS 12.2.4, Web Services SOAP/REST, BI Publisher, Unix/Shell, PL/SQL, Oracle Workflow, Talend, SQL Developer, MobaXterm, JDeveloper.",
+                functional: [
+                    "Manufacturing : BOM (Oracle Bills of Materials), WIP (Oracle Work in Process), ENG (Engineering)",
+                    "Master Data Management : PIM (Oracle Product Information Management)",
+                    "Logistics : INV (Oracle Inventory)",
+                    "Order Management : OM (Oracle Order Management)"
+                ]
+            }
+        ];
+
+        // Calculer les durées en mois pour chaque expérience
+        experiencesData.forEach(d => {
+            d.parsedStartDate = parseDate(d.startDate);
+            d.parsedEndDate = parseDate(d.endDate);
+            if (d.parsedStartDate && d.parsedEndDate) {
+                d.durationMonths = (d.parsedEndDate.getFullYear() - d.parsedStartDate.getFullYear()) * 12 +
+                                   (d.parsedEndDate.getMonth() - d.parsedStartDate.getMonth());
+            } else {
+                d.durationMonths = 0;
+            }
+        });
+
+        // Trier les expériences par date de début (du plus ancien au plus récent) pour le graphique et la liste
+        experiencesData.sort((a, b) => a.parsedStartDate - b.parsedStartDate);
+
+        // Configuration du graphique D3.js
+        const margin = { top: 20, right: 30, bottom: 100, left: 120 }; // Augmenter la marge inférieure pour les labels
+        let width = document.getElementById('chart-container').offsetWidth - margin.left - margin.right;
+        let height = experiencesData.length * 50; // Hauteur dynamique basée sur le nombre d'expériences
+
+        // Créer le conteneur SVG
+        const svg = d3.select("#chart-container")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Échelles
+        const x = d3.scaleLinear()
+            .domain([0, d3.max(experiencesData, d => d.durationMonths)])
+            .range([0, width]);
+
+        const y = d3.scaleBand()
+            .domain(experiencesData.map(d => `${d.company} (${d.startDate} - ${d.endDate === "Présent" ? "aujourd'hui" : d.endDate})`))
+            .range([0, height])
+            .padding(0.2);
+
+        // Axes
+        svg.append("g")
+            .attr("class", "x-axis axis")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x).tickFormat(d => `${d} mois`))
+            .selectAll("text")
+            .attr("transform", "rotate(-45)")
+            .style("text-anchor", "end");
+
+        svg.append("g")
+            .attr("class", "y-axis axis")
+            .call(d3.axisLeft(y));
+
+        // Tooltip
+        const tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip");
+
+        // Barres
+        svg.selectAll(".bar")
+            .data(experiencesData)
+            .enter().append("rect")
+            .attr("class", "bar")
+            .attr("x", 0)
+            .attr("y", d => y(`${d.company} (${d.startDate} - ${d.endDate === "Présent" ? "aujourd'hui" : d.endDate})`))
+            .attr("width", d => x(d.durationMonths))
+            .attr("height", y.bandwidth())
+            .on("mouseover", (event, d) => {
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tooltip.html(`
+                    <strong>${d.company}</strong><br/>
+                    <em>${d.post}</em><br/>
+                    Durée: ${Math.floor(d.durationMonths / 12)} an(s) et ${d.durationMonths % 12} mois
+                `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", () => {
+                tooltip.transition()
+                    .duration(500)
+                    .style("opacity", 0);
+            });
+
+        // Labels pour les durées sur les barres
+        svg.selectAll(".bar-label")
+            .data(experiencesData)
+            .enter().append("text")
+            .attr("class", "bar-label text-xs text-white font-bold")
+            .attr("x", d => x(d.durationMonths) - 5) // Position à l'intérieur de la barre
+            .attr("y", d => y(`${d.company} (${d.startDate} - ${d.endDate === "Présent" ? "aujourd'hui" : d.endDate})`) + y.bandwidth() / 2 + 4) // Centré verticalement
+            .attr("text-anchor", "end") // Alignement à droite
+            .text(d => `${Math.floor(d.durationMonths / 12)}a ${d.durationMonths % 12}m`);
+
+        // Fonction pour rendre les expériences professionnelles détaillées
+        function renderExperiences() {
+            const container = d3.select("#experience-list");
+            experiencesData.forEach(exp => {
+                const expDiv = container.append("div")
+                    .attr("class", "mb-6 p-4 bg-gray-50 rounded-lg shadow-sm");
+
+                expDiv.append("h3")
+                    .attr("class", "text-xl font-bold text-blue-800 mb-1")
+                    .text(`${exp.company} - ${exp.project}`);
+
+                expDiv.append("p")
+                    .attr("class", "text-gray-600 text-sm mb-1")
+                    .html(`**Dates :** ${exp.startDate} – ${exp.endDate} | **Poste :** ${exp.post}`);
+
+                expDiv.append("p")
+                    .attr("class", "text-gray-700 mb-2")
+                    .text(`**Description :** ${exp.description}`);
+
+                expDiv.append("h4")
+                    .attr("class", "font-semibold text-md text-gray-800 mb-1")
+                    .text("Tâches :");
+                const tasksList = expDiv.append("ul")
+                    .attr("class", "list-disc list-inside text-gray-700 ml-4 mb-2");
+                exp.tasks.forEach(task => {
+                    tasksList.append("li").text(task);
+                });
+
+                expDiv.append("p")
+                    .attr("class", "text-gray-600 text-sm")
+                    .html(`**Environnement technique :** ${exp.technical || exp.environment}`);
+
+                if (exp.functional) {
+                    expDiv.append("p")
+                        .attr("class", "text-gray-600 text-sm")
+                        .html(`**Environnement fonctionnel :** ${Array.isArray(exp.functional) ? exp.functional.join(', ') : exp.functional}`);
+                }
+                if (exp.methodology) {
+                    expDiv.append("p")
+                        .attr("class", "text-gray-600 text-sm")
+                        .html(`**Méthodologie :** ${exp.methodology}`);
+                }
+            });
+        }
+
+        // Appel de la fonction pour rendre les expériences détaillées
+        renderExperiences();
+
+        // Fonction de redimensionnement pour rendre le graphique réactif
+        function resizeChart() {
+            width = document.getElementById('chart-container').offsetWidth - margin.left - margin.right;
+            height = experiencesData.length * 50; // Hauteur dynamique basée sur le nombre d'expériences
+
+            d3.select(svg.node().parentNode) // Sélectionne le SVG parent
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom);
+
+            x.range([0, width]);
+            y.range([0, height]);
+
+            svg.select(".x-axis")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(x).tickFormat(d => `${d} mois`));
+
+            svg.select(".y-axis")
+                .call(d3.axisLeft(y));
+
+            svg.selectAll(".bar")
+                .attr("width", d => x(d.durationMonths))
+                .attr("y", d => y(`${d.company} (${d.startDate} - ${d.endDate === "Présent" ? "aujourd'hui" : d.endDate})`))
+                .attr("height", y.bandwidth());
+
+            svg.selectAll(".bar-label")
+                .attr("x", d => x(d.durationMonths) - 5)
+                .attr("y", d => y(`${d.company} (${d.startDate} - ${d.endDate === "Présent" ? "aujourd'hui" : d.endDate})`) + y.bandwidth() / 2 + 4);
+        }
+
+        // Écouteur d'événement pour le redimensionnement de la fenêtre
+        window.addEventListener('resize', resizeChart);
+        // Appel initial pour s'assurer que le graphique est bien dimensionné au chargement
+        resizeChart();
+
+    </script>
+</body>
+</html>
